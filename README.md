@@ -10,4 +10,6 @@ https://flutter.dev/docs/get-started/install/linux
 
 ## 3. build the backend data structure for our Twitter
 
-## 4. make a nested twitter-like reply view
+## 4. rebuild the backend logic with flutter
+
+## 5. make a nested twitter-like reply view
