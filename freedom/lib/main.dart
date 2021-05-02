@@ -11,10 +11,14 @@ import 'package:sqflite/sqflite.dart';
 
 import 'settings.dart';
 
-Database database;
+import 'package:freedom/classes/MyTwitter.dart';
+
+MyTwitter myTwitter;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  myTwitter = MyTwitter();
 
   runApp(
     MultiProvider(
@@ -80,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    final listsModel = Provider.of<ListsModel>(context, listen: false);
+    final listsModel = Provider.of<ListsModel>(context, listen: true);
 
     return DefaultTabController(
       length: 2,
@@ -142,7 +146,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: TabBarView(
           children: [
-            MyList(),
+            MyList(
+              messages: listsModel.messages,
+              type: "post",
+            ),
             Icon(Icons.directions_transit),
           ],
         ),

@@ -8,41 +8,31 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
 
+import 'package:freedom/classes/MyTwitter.dart';
 import '../main.dart';
-
-class Message {
-  String date;
-  String content;
-
-  Message({this.date, this.content});
-
-  Map<String, dynamic> toMap() {
-    return {
-      'date': date,
-      'content': content,
-    };
-  }
-
-  factory Message.fromJson(Map<String, dynamic> json) {
-    return new Message(
-      date: json['date'] as String,
-      content: json['content'] as String,
-    );
-  }
-}
+import '../main.dart';
+import '../main.dart';
 
 class ListsModel extends ChangeNotifier {
   List<Message> temp_messages = [];
-  ListsModel() {}
+
+  ListsModel() {
+    myTwitter.post_tweet(new Message(date: "1", content: "hi 1"));
+    myTwitter.post_tweet(new Message(date: "2", content: "hi 2"));
+    myTwitter.reply_tweet(1, new Message(date: "3", content: "reply 1"));
+    myTwitter.reply_tweet(1, new Message(date: "4", content: "reply 2"));
+    myTwitter.reply_tweet(1, new Message(date: "5", content: "reply 3"));
+    myTwitter.reply_tweet(2, new Message(date: "6", content: "reply 3"));
+  }
 
   Future<void> insertMessage(Message msg) async {
     notifyListeners();
   }
 
   Future<List<Message>> getMessageList() async {
-    // Get a reference to the database.
+    return myTwitter.all_tweets;
+    /*
     String json_string = await rootBundle.loadString('data.json');
-
     final parsed = jsonDecode(json_string).cast<Map<String, dynamic>>();
     //parsed.map<Message>((json) => Message.fromJson(json)).toList();
 
@@ -54,9 +44,15 @@ class ListsModel extends ChangeNotifier {
         content: maps[i]['content'],
       );
     });
+    */
   }
 
   List<Message> get messages {
+    if (myTwitter.all_tweets != temp_messages) {
+      temp_messages = myTwitter.all_tweets;
+    }
+    return temp_messages;
+    /*
     getMessageList().then((listofvalues) {
       temp_messages = listofvalues;
       notifyListeners();
@@ -68,6 +64,7 @@ class ListsModel extends ChangeNotifier {
       notifyListeners();
     });
     return temp_messages;
+    */
   }
 
   void add(int item) {

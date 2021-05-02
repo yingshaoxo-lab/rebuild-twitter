@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:freedom/store/lists.dart';
 
+import 'package:freedom/classes/MyTwitter.dart';
+import 'package:freedom/components/tweet.dart';
+
 class MyCard extends StatelessWidget {
   Message message;
   MyCard({this.message});
@@ -12,7 +15,14 @@ class MyCard extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          print('Card tapped.');
+          print('Card ${message.id} tapped.');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => (Tweet(
+                      message: message,
+                    ))),
+          );
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -44,8 +54,8 @@ class MyCard extends StatelessWidget {
                             color: Colors.grey, size: 18),
                         Container(
                           margin: EdgeInsets.only(left: 3.0),
-                          child:
-                              Text("15", style: TextStyle(color: Colors.black)),
+                          child: Text(message.children.length.toString(),
+                              style: TextStyle(color: Colors.black)),
                         )
                       ],
                     ),
